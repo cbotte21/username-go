@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func GetHandler(w http.ResponseWriter, r *http.Request) {
+func GetHandler(w http.ResponseWriter, r *http.Request, usernameClient *datastore.MongoClient[schema.Username]) {
 	err := r.ParseForm() //Populate PostForm
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -23,7 +23,7 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 		Id: playerId,
 	}
 
-	username, err := datastore.Find(query) //Find user with matching email
+	username, err := usernameClient.Find(query) //Find user with matching email
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("_id is not linked to a username.\n"))

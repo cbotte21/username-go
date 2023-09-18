@@ -10,6 +10,10 @@ type Username struct { //Payload
 	Username string `bson:"username,omitempty"`
 }
 
+func (username Username) Key() string {
+	return username.Id
+}
+
 func (username Username) Database() string {
 	return DATABASE
 }
